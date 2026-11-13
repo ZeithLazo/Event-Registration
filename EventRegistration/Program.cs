@@ -1,54 +1,43 @@
-﻿namespace EventRegistration
+﻿using BusinessLogicEvent;
+namespace EventRegistration
 {
     internal class Program
     {
         static void Main(string[] args)
         {
             Console.WriteLine("Event Registration System \n");
+            bool isRunning = true;
 
-            String events;
+            String choice;
             
-
+            while(isRunning != false) { 
             Console.WriteLine("Choose the number of the event");
-            Console.WriteLine("List Of Events: \n 1. Tech Expo \n 2. Art Exhibit \n 3. Seminar \n");
+            List<string> eventList = Methods.TicketService.GetEvents();
+                for (int i = 0; i < eventList.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}. {eventList[i]}");
+                }
 
-            events = Console.ReadLine();
+            choice = Console.ReadLine();
 
             Console.WriteLine();
 
-            Console.WriteLine(events);
+            Console.WriteLine(choice);
 
             string date = DateTime.Now.ToString("dd/MM/yyyy");
-            if (events == "1")
-            {
-                events = "Tech Expo";
-                
+
+            Methods.TicketService.EventChoice(choice);  
+
+            Methods.TicketService.TicketInfo(choice, date);
+
+                Console.WriteLine("Register another event? 1 for Yes 2 for No");
+                string response = Console.ReadLine();
+
+                if (response == "2") {
+                    isRunning = false;
+                }
+
             }
-            else if (events == "2")
-            {
-                events = "Art Exhibit";
-                
-            }
-            else if (events == "3")
-            {
-                events = "Seminar";
-                
-            }
-            else
-            {
-                Console.WriteLine("Invalid event");
-            }
-
-            Console.WriteLine("-------------------------------------");
-            Console.WriteLine("----------TICKET-INFORMATION---------");
-            Console.WriteLine("-------------------------------------");
-            Console.WriteLine("--EVENT-REGISTERED: "+events+"-------");
-            Console.WriteLine("--DATE-REGISTERED: "+date+"----------");
-            Console.WriteLine("-------------------------------------");
-
-
-
-
         }
     }
 }
